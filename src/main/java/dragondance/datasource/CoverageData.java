@@ -301,7 +301,8 @@ public class CoverageData implements AutoCloseable {
 	}
 	
 	private CodeRange pushRangeList(CodeRange codeRange, long addr, int size, boolean isSequence) throws InvalidInstructionAddress, OperationAbortedException {
-		final boolean singleInstruction = !isSequence;
+		// Log.info("pushRangeList addr: 0x%x, size: %d", addr, size);
+		final boolean singleInstruction = !isSequence || true;
 		
 		if (this.rangeList.isEmpty()) {
 			codeRange = new CodeRange(this,addr,size,this.addressMap,singleInstruction);
@@ -325,11 +326,15 @@ public class CoverageData implements AutoCloseable {
 		
 		imgBase = DragonHelper.getImageBase().getOffset();
 		
+		Log.setEnable(true);
+		Log.enableGhidraConsoleLogging(true);
+		Log.enableInfo(true);
+		Log.enableVerbose(true);
 		Log.info("Generating initial code ranges. Total block entry: %d",source.entries.size());
 		
 		for (BlockEntry be : source.entries) {
-			
-			addr = imgBase + be.getOffset();
+			addr = source.modules.get(be.getModuleId()).getBase() + be.getOffset();
+			// addr = imgBase + be.getOffset();
 			codeRange = pushRangeList(codeRange, addr,be.getSize(),true);
 		}
 		

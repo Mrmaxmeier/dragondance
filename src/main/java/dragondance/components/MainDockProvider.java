@@ -272,8 +272,11 @@ public class MainDockProvider extends ComponentProvider implements GuiAffectedOp
 			return null;
 		}
 		
+		DragonHelper.showMessage("process done");
+
 		try {
 			if (coverage.build()) {
+				DragonHelper.showMessage("coverage built!");
 				
 				Runnable postBuildGuiOp = new Runnable() {
 					@Override
@@ -289,6 +292,8 @@ public class MainDockProvider extends ComponentProvider implements GuiAffectedOp
 				else
 					DragonHelper.runOnSwingThread(postBuildGuiOp, true);
 	
+			} else {
+				DragonHelper.showMessage("coverage not built!");
 			}
 		} catch (InvalidInstructionAddress e1) {
 			

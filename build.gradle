@@ -22,6 +22,8 @@ if (System.env.GHIDRA_INSTALL_DIR) {
 }
 else if (project.hasProperty("GHIDRA_INSTALL_DIR")) {
 	ghidraInstallDir = project.getProperty("GHIDRA_INSTALL_DIR")
+} else {
+	ghidraInstallDir = "/opt/ghidra";
 }
 
 if (ghidraInstallDir) {
